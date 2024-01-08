@@ -62,7 +62,7 @@ public class ShelterRepository : IShelterRepository
 
     public async Task<bool> CheckIfShelterExists(long shelterId, CancellationToken cancellationToken)
     {
-        return await _unitOfWork.DatabaseContext.WorkersEntity
-            .AnyAsync(x => x.ShelterId == shelterId, cancellationToken);
+        return await _unitOfWork.DatabaseContext.SheltersEntity
+            .AnyAsync(x => x.Id == shelterId, cancellationToken);
     }
 }
