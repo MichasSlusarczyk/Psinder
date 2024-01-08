@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    environment:
+      MSSQL_SA_PASSWORD: "Pass@word"
+      ACCEPT_EULA: "Y"
+    ports:
+    - "1433:1433"
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1
+    volumes: 
+      - cache:/data
+  psinder-frontend:
+    image: wiktoriafica/psinder-fe
+    container_name: psinder-frontend
+    tty: true
+    ports:
+      - "4200:443"
+  psinder-backend:
+    image: wiktoriafica/psinder-be
+    depends_on:
+      - "sqldata"
+    ports:
+      - "5087:80"
+      - "7087:443"
+volumes:
+  cache:
+    driver: local
