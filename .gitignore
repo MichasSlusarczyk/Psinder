@@ -1,0 +1,12 @@
+Backend/Psinder/.vs/
+Backend/Psinder/obj/
+Backend/Psinder/API/bin/
+Backend/Psinder/API/obj/
+Backend/Psinder/Auth/bin/
+Backend/Psinder/Auth/obj/
+Backend/Psinder/DB/bin/
+Backend/Psinder/DB/obj/
+Backend/Psinder/Psinder.IntegrationTests/bin/
+Backend/Psinder/Psinder.IntegrationTests/obj/
+Backend/Psinder/Psinder.UnitTests/bin/
+Backend/Psinder/Psinder.UnitTests/obj/
