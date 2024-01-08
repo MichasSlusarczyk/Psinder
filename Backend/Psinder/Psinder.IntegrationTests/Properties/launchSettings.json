@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Psinder.IntegrationTests": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
