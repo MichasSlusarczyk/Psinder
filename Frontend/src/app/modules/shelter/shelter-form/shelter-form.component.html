@@ -1,0 +1,46 @@
+<div class="spinner" *ngIf="isProcessing">
+    <mat-spinner diameter="80" color="accent"></mat-spinner>
+</div>
+<mat-card class="pet-form-card" *ngIf="!isProcessing">
+    <mat-card-title class="header-card">{{ 'Topbar.AddShelter' | translate }}</mat-card-title>
+    <form class="example-form" [formGroup]="form">
+        <mat-card-title>{{ 'Shelter.Name' | translate }}*</mat-card-title>
+        <mat-form-field class="example-full-width" appearance="outline" color="accent">
+            <input type="text" matInput formControlName="nameControl" [errorStateMatcher]="matcher" />
+        </mat-form-field>
+        <mat-card-title>{{ 'Shelter.Description' | translate }}*</mat-card-title>
+        <mat-form-field class="example-full-width" appearance="outline" color="accent">
+            <textarea matInput formControlName="descriptionControl" [errorStateMatcher]="matcher" rows="10">
+        </textarea>
+        </mat-form-field>
+        <mat-card-title>{{ 'Shelter.Email' | translate }}*</mat-card-title>
+        <mat-form-field class="example-full-width" appearance="outline" color="accent">
+            <input type="text" matInput formControlName="emailControl" [errorStateMatcher]="matcher" />
+        </mat-form-field>
+        <mat-card-title>{{ 'Shelter.PhoneNumber' | translate }}*</mat-card-title>
+        <mat-form-field class="example-full-width" appearance="outline" color="accent">
+            <input type="text" matInput formControlName="phoneNumberControl" [errorStateMatcher]="matcher" />
+        </mat-form-field>
+
+        <mat-card-title>{{ 'Shelter.City' | translate }}*</mat-card-title>
+        <mat-form-field class="example-full-width" appearance="outline" color="accent">
+            <input type="text" matInput formControlName="cityControl" [errorStateMatcher]="matcher" />
+        </mat-form-field>
+
+        <mat-card-title>{{ 'Shelter.Address' | translate }}*</mat-card-title>
+        <mat-form-field class="example-full-width" appearance="outline" color="accent">
+            <input type="text" matInput formControlName="addressControl" [errorStateMatcher]="matcher" />
+        </mat-form-field>
+        <button mat-raised-button type="submit" (click)="addShelter()" color="accent" class="button" *ngIf="!isEditing"
+            [disabled]="!form.valid">
+            {{ 'Shelter.AddShelter' | translate }}
+        </button>
+        <mat-error *ngIf="!form.valid && !isEditing">
+            {{ 'Post.PleaseFillAllFields' | translate }}
+        </mat-error>
+
+        <button mat-raised-button *ngIf="isEditing" type="submit" (click)="editShelter()" color="accent" class="button">
+            {{ 'Shelter.EditShelter' | translate }}
+        </button>
+    </form>
+</mat-card>

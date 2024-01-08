@@ -1,0 +1,197 @@
+<mat-card class="example-card">
+  <mat-card-content>
+    <mat-horizontal-stepper [linear]="false" #stepper color="accent">
+      <mat-step>
+        <form class="example-form" [formGroup]="form">
+          <ng-template matStepLabel>{{
+            "Register.FillOutYourCredentials" | translate
+            }}</ng-template>
+          <mat-form-field class="example-full-width" appearance="outline" color="accent">
+            <mat-label>{{ "Register.Email" | translate }}</mat-label>
+            <input type="email" matInput formControlName="emailControl" [errorStateMatcher]="matcher"
+              placeholder="Email" />
+            <mat-error *ngIf="form.get('emailControl')!.hasError('required')">
+              {{ "Register.EmailRequired" | translate }}
+            </mat-error>
+            <mat-error *ngIf="form.get('emailControl')!.hasError('email')">
+              {{ "Register.EmailIncorrect" | translate }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="outline" color="accent">
+            <mat-label>{{ "Register.Password" | translate }}</mat-label>
+            <input [type]="hide ? 'password' : 'text'" matInput formControlName="passwordControl"
+              [errorStateMatcher]="matcher" placeholder="Password" />
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide">
+              <mat-icon>{{ hide ? "visibility" : "visibility_off" }}</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('passwordControl')!.hasError('required')">
+              {{ "Register.PasswordRequired" | translate }}
+            </mat-error>
+            <mat-error *ngIf="form.get('passwordControl')!.hasError('number')">
+              {{ "Register.PasswordDigit" | translate }}
+            </mat-error>
+            <mat-error *ngIf="form.get('passwordControl')!.hasError('capital')">
+              {{ "Register.PasswordCapitalLetter" | translate }}
+            </mat-error>
+            <mat-error *ngIf="form.get('passwordControl')!.hasError('small')">
+              {{ "Register.PasswordSmallLetter" | translate }}
+            </mat-error>
+            <mat-error *ngIf="form.get('passwordControl')!.hasError('special')">
+              {{ "Register.PasswordSpecialCharacter" | translate }}
+            </mat-error>
+            <mat-error *ngIf="form.get('passwordControl')!.hasError('minlength')">
+              {{ "Register.PasswordCharacters" | translate }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="outline" color="accent">
+            <mat-label>{{ "Register.ConfirmPassword" | translate }}</mat-label>
+            <input [type]="hideConfirm ? 'password' : 'text'" matInput formControlName="confirmPasswordControl"
+              [errorStateMatcher]="matcher" placeholder="Confirm password" />
+            <button mat-icon-button matSuffix (click)="hideConfirm = !hideConfirm" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hideConfirm">
+              <mat-icon>{{
+                hideConfirm ? "visibility" : "visibility_off"
+                }}</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('confirmPasswordControl')!.hasError('required')">
+              {{ "Register.ConfirmPasswordRequired" | translate }}
+            </mat-error>
+            <mat-error *ngIf="form.get('confirmPasswordControl')!.hasError('matching')">
+              {{ "Register.ConfirmDoesNotMatch" | translate }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="outline" color="accent" *ngIf="isAdminLoggedIn()">
+            <mat-label>{{ "Register.Role" | translate }}</mat-label>
+            <mat-select formControlName="roleControl">
+              <mat-option *ngFor="let role of getRole() | keyvalue: originalOrder" value="{{ role.key }}">{{ role.value
+                }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="outline" color="accent" *ngIf="isAdminLoggedIn() 
+            && isWorkerSelected()">
+            <mat-label>{{ "Shelter.Shelters" | translate }}</mat-label>
+            <mat-select formControlName="shelterControl">
+              <mat-option value="">-</mat-option>
+              <mat-option *ngFor="let shelter of shelters" value="{{ shelter.id }}">{{shelter.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div>
+            <button color="accent" mat-flat-button matStepperNext>{{ "Register.Next" | translate }}</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step>
+        <form class="example-form" [formGroup]="personalDataForm">
+          <ng-template matStepLabel>{{
+            "Register.FillOutYourPersonalData" | translate
+            }}</ng-template>
+          <mat-form-field class="example-full-width" appearance="outline" color="accent">
+            <mat-label>{{ "Register.FirstName" | translate }}</mat-label>
+            <input type="text" matInput formControlName="firstNameControl" [errorStateMatcher]="matcher"
+              placeholder="First name" />
+            <mat-error *ngIf="
+                personalDataForm.get('firstNameControl')!.hasError('required')
+              ">
+              {{ "Register.FirstNameRequired" | translate }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="outline" color="accent">
+            <mat-label>{{ "Register.LastName" | translate }}</mat-label>
+            <input type="text" matInput formControlName="lastNameControl" [errorStateMatcher]="matcher"
+              placeholder="Last name" />
+            <mat-error *ngIf="
+                personalDataForm.get('lastNameControl')!.hasError('required')
+              ">
+              {{ "Register.LastNameRequired" | translate }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="outline" color="accent">
+            <mat-label>{{ "Register.Gender" | translate }}</mat-label>
+            <mat-select formControlName="genderControl">
+              <mat-option *ngFor="let gender of getPersonGender() | keyvalue: originalOrder" value="{{ gender.key }}">{{
+                gender.value }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="
+                personalDataForm.get('genderControl')!.hasError('required')
+              ">
+              {{ "Register.GenderRequired" | translate }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="outline" color="accent">
+            <mat-label>{{ "Register.PhoneNumber" | translate }}</mat-label>
+            <input type="text" matInput formControlName="phoneNumberControl" [errorStateMatcher]="matcher"
+              placeholder="Phone number" />
+            <mat-error *ngIf="
+                personalDataForm.get('phoneNumberControl')!.hasError('required')
+              ">
+              {{ "Register.PhoneNumberRequired" | translate }}
+            </mat-error>
+            <mat-error *ngIf="
+                personalDataForm.get('phoneNumberControl')!.hasError('pattern')
+              ">
+              Phone number should have max. 9 digits
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="outline" color="accent">
+            <mat-label>{{ "Register.BirthDate" | translate }}</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="birthDateControl" [errorStateMatcher]="matcher"
+              [max]="maxDate" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="
+                personalDataForm.get('birthDateControl')!.hasError('required')
+              ">
+              {{ "Register.BirthDateRequired" | translate }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="outline" color="accent">
+            <mat-label>{{ "Register.City" | translate }}</mat-label>
+            <input type="text" matInput formControlName="cityControl" [errorStateMatcher]="matcher"
+              placeholder="City" />
+            <mat-error *ngIf="personalDataForm.get('cityControl')!.hasError('required')">
+              {{ "Register.CityRequired" | translate }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="outline" color="accent">
+            <mat-label>{{ "Register.Street" | translate }}</mat-label>
+            <input type="text" matInput formControlName="streetControl" [errorStateMatcher]="matcher"
+              placeholder="Street" />
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="outline" color="accent">
+            <mat-label>{{ "Register.StreetNumber" | translate }}</mat-label>
+            <input type="text" matInput formControlName="streetNumberControl" [errorStateMatcher]="matcher"
+              placeholder="Street number" />
+          </mat-form-field>
+          <p><ng-container #container></ng-container></p>
+
+          <h3 class="error" *ngIf="isError">{{errorMessage}}</h3>
+
+          <div>
+            <button color="accent" mat-flat-button matStepperPrevious class="button">
+              {{ "Register.Back" | translate }}
+            </button>
+          </div>
+          <div>
+            <button color="accent" mat-flat-button class="button" type="submit" (click)="onSubmit()"
+              [disabled]="!personalDataForm.valid" matStepperNext>
+              {{ "Register.Submit" | translate }}
+            </button>
+          </div>
+          <mat-hint *ngIf="!personalDataForm.valid">{{
+            "Register.FormIsNotComplete" | translate
+            }}</mat-hint>
+        </form>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </mat-card-content>
+</mat-card>

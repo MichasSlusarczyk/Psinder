@@ -1,0 +1,39 @@
+.pet-header {
+    font-size: 400%;
+}
+
+.pet-info {
+    max-width: 90%;
+    display: inline-block;
+    margin-bottom: 5%;
+    margin-top: 1%;
+}
+
+.pet-subtitle {
+    position: absolute;
+}
+
+.pet-icon {
+    transform: scale(0.5);
+}
+
+.wrapper {
+    display: flex;
+    margin-top: 5%;
+}
+.image {
+    max-width: 50%;
+    flex: 1;
+}
+.list {
+    flex: 1;
+}
+
+.pets-card {
+    display: block;
+    margin-bottom: 8%;
+    margin-top: 3%;
+    margin-left: 11%;
+    margin-right: 7%;
+    max-width: 60%;
+  }

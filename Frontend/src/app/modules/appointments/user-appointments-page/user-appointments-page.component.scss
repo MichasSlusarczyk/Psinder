@@ -1,0 +1,40 @@
+.wrapper {
+  max-width: 100%;
+  overflow: hidden;
+  margin-top: 6%;
+  max-height:fit-content;
+}
+.image {
+  max-width: 30%;
+  margin-top: 3%;
+  float: right;
+  max-height: 60%;
+  overflow: visible;
+  margin-right: 8%;
+}
+
+.img {
+    border: 3px solid rgb(150, 148, 148);
+    border-radius: 30px 30px !important;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.appointment-text {
+  float: left;
+  margin-right: 10%;
+  margin-top: 5%;
+  overflow: visible;
+}
+
+::ng-deep .mat-card.appointment-card {
+  border: 1px solid rgb(150, 148, 148);
+  border-radius: 30px !important;
+  margin-top: 3%;
+}
+
+.appointment-title {
+    margin-top: 8%;
+    margin-bottom: 8%;
+    overflow: hidden;
+}

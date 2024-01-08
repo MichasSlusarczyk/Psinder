@@ -1,0 +1,77 @@
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.example-card {
+  max-width: 600px;
+  display: inline-block;
+  margin-bottom: 5%;
+  margin-top: 1%;
+  margin-left: 30%;
+  margin-right: 30%;
+}
+
+.title {
+  margin-bottom: 30%;
+  font-size: xx-large;
+  color: rgb(58, 57, 57);
+}
+
+.mat-card .mat-card-content {
+  padding: 2%;
+}
+
+.example-full-width {
+  width: 100%;
+  margin-bottom: 6%;
+}
+
+.example-full-width2 {
+  width: 100%;
+}
+
+.example-half-width {
+  width: 45%;
+  margin-bottom: 4%;
+}
+
+.mat-input-invalid .mat-input-placeholder {
+  color: rgb(213, 104, 7);
+}
+
+.mat-input-invalid .mat-input-ripple {
+  background-color: rgb(213, 104, 7);
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.small-spacer {
+  flex: 0.3 0.2 auto
+}
+
+.float {
+  float:left;
+}
+
+.header-card {
+  text-align: center;
+  font-size: xx-large;
+  margin-bottom: 5%;
+  font-weight: bold;
+}

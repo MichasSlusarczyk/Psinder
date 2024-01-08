@@ -1,0 +1,107 @@
+<div class="spinner" *ngIf="isProcessing">
+  <mat-spinner diameter="80" color="accent"></mat-spinner>
+</div>
+<mat-card class="pet-form-card" *ngIf="!isProcessing">
+  <mat-card-title class="header-card">{{ 'Pets.AddPet' | translate }}</mat-card-title>
+  <form class="example-form" [formGroup]="form">
+    <mat-card-title>{{ 'Pets.Name' | translate }}*</mat-card-title>
+    <mat-form-field class="example-full-width" appearance="outline" color="accent">
+      <input type="text" matInput formControlName="nameControl" [errorStateMatcher]="matcher" />
+    </mat-form-field>
+    <mat-card-title>{{ 'Pets.Breed' | translate }}*</mat-card-title>
+    <mat-form-field class="example-full-width" appearance="outline" color="accent">
+      <input type="text" matInput formControlName="breedControl" [errorStateMatcher]="matcher" />
+    </mat-form-field>
+    <mat-card-title>{{ 'Pets.Description' | translate }}*</mat-card-title>
+    <mat-form-field class="example-full-width" appearance="outline" color="accent">
+      <textarea matInput formControlName="descriptionControl" [errorStateMatcher]="matcher" rows="10">
+      </textarea>
+    </mat-form-field>
+
+    <mat-card-title>{{ 'Pets.Gender' | translate }}*</mat-card-title>
+    <mat-form-field class="example-full-width" appearance="outline" color="accent">
+      <mat-select formControlName="genderControl">
+        <mat-option *ngFor="let gender of getGender() | keyvalue; originalOrder" value="{{ gender.key }}">{{
+          gender.value }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-card-title>{{ 'Pets.Size' | translate }}*</mat-card-title>
+    <mat-form-field class="example-full-width" appearance="outline" color="accent">
+      <mat-select formControlName="petSizeControl">
+        <mat-option *ngFor="let size of getSize() | keyvalue; originalOrder" value="{{ size.key }}">{{ size.value
+          }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-card-title>{{ 'Pets.YearOfBirth' | translate }}*</mat-card-title>
+    <mat-form-field class="example-full-width" appearance="outline" color="accent">
+      <input type="number" matInput formControlName="yearOfBirthControl" [errorStateMatcher]="matcher" />
+    </mat-form-field>
+    <mat-card-title>{{ 'Pets.Number' | translate }}*</mat-card-title>
+    <mat-form-field class="example-full-width" appearance="outline" color="accent">
+      <input type="text" matInput formControlName="numberControl" [errorStateMatcher]="matcher" />
+    </mat-form-field>
+
+    <mat-card-title>{{ 'Pets.PA' | translate }}*</mat-card-title>
+    <mat-form-field class="example-full-width" appearance="outline" color="accent">
+      <mat-select formControlName="physicalActivityControl">
+        <mat-option *ngFor="let pa of getPA() | keyvalue; originalOrder" value="{{ pa.key }}">{{ pa.value
+          }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-card-title>{{ 'Pets.ATD' | translate }}*</mat-card-title>
+    <mat-form-field class="example-full-width" appearance="outline" color="accent">
+      <mat-select formControlName="attitudeDogsControl">
+        <mat-option *ngFor="let atd of getATD() | keyvalue; originalOrder" value="{{ atd.key }}">{{ atd.value
+          }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-card-title>{{ 'Pets.ATC' | translate }}*</mat-card-title>
+    <mat-form-field class="example-full-width" appearance="outline" color="accent">
+      <mat-select formControlName="attitudeChildrenControl">
+        <mat-option *ngFor="let atc of getATC() | keyvalue; originalOrder" value="{{ atc.key }}">{{ atc.value
+          }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="chips">
+      <mat-card-title>{{ 'Pets.PT' | translate }}</mat-card-title>
+      <mat-card-subtitle>{{ 'Pets.PTHint' | translate }}</mat-card-subtitle>
+      <mat-form-field class="example-chip-list" appearance="outline">
+      <mat-chip-list aria-label="Pet traits" multiple="true" formControlName="petTraitsControl">
+        <mat-chip  color="accent" *ngFor="let pt of getPT() | keyvalue; originalOrder" value="{{pt.key}}">{{pt.value}}</mat-chip>
+      </mat-chip-list>
+    </mat-form-field>
+    </div>
+    <div>
+      <button type="button" mat-raised-button (click)="fileInput.click()" class="button">
+        {{ 'Post.ChooseFile' | translate }}
+      </button>
+      <input hidden (change)="onFilesSelected($event)" #fileInput type="file" accept=".jpg,.jpeg,.png,.bmp"
+        multiple="multiple" />
+    </div>
+    <mat-card-subtitle>{{ 'Post.ChoosenFiles' | translate }}:</mat-card-subtitle>
+    <mat-grid-list cols="5" class="images">
+      <mat-grid-tile *ngFor="let file of filesWithImages">
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
+          (click)="removeFileWithImage(file)">
+          <mat-icon>close</mat-icon>
+        </button>
+        <img [src]="file.imageUrl" height="60%" width="60%" *ngIf="file.imageUrl" />
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <p><ng-container #container></ng-container></p>
+
+    <button mat-raised-button type="submit" (click)="addPet()" color="accent" class="button" *ngIf="!isEditing"
+      [disabled]="!form.valid">
+      {{ 'Pets.AddPet' | translate }}
+    </button>
+    <mat-error *ngIf="!form.valid && !isEditing">
+      {{ 'Post.PleaseFillAllFields' | translate }}
+    </mat-error>
+
+    <button mat-raised-button *ngIf="isEditing" type="submit" (click)="editPet()" color="accent" class="button">
+      {{ 'Pets.EditPet' | translate }}
+    </button>
+  </form>
+</mat-card>

@@ -1,0 +1,103 @@
+<mat-card class="filter-card">
+  <form class="example-form" [formGroup]="form">
+    <table class="example-full-width2" cellspacing="1">
+      <tr>
+        <td>
+          <mat-form-field color="accent" class="example-full-width2" appearance="outline">
+            <mat-label for="shelterSelect">{{ "Shelter.Shelters" | translate }}:</mat-label>
+            <mat-select formControlName="shelterControl" (selectionChange)="onShelterChange()" [(ngModel)]="shelterId">
+              <mat-option value="">-</mat-option>
+              <mat-option *ngFor="let shelter of shelters" [value]="shelter.id">{{shelter.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width2" appearance="outline" color="accent">
+            <mat-label>{{ 'Pets.Name' | translate }}</mat-label>
+            <input type="text" matInput formControlName="nameControl" />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width2" appearance="outline" color="accent">
+            <mat-label>{{ 'Pets.Breed' | translate }}</mat-label>
+            <input type="text" matInput formControlName="breedControl" />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width2" appearance="outline" color="accent">
+            <mat-label>{{ 'Pets.Age' | translate }}</mat-label>
+            <input type="text" matInput formControlName="yearOfBirthControl" />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width2" color="accent" appearance="outline">
+            <mat-label>{{ 'Pets.Gender' | translate }}</mat-label>
+            <mat-select formControlName="genderControl">
+              <mat-option>-</mat-option>
+              <mat-option *ngFor="let gender of getPetGender() | keyvalue; originalOrder" value="{{ gender.key }}">{{
+                gender.value }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width2" color="accent" appearance="outline">
+            <mat-label>{{ 'Pets.Size' | translate }}</mat-label>
+            <mat-select formControlName="petSizeControl">
+              <mat-option>-</mat-option>
+              <mat-option *ngFor="let size of getPetSize() | keyvalue; originalOrder" value="{{ size.key }}">{{
+                size.value }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width2" color="accent" appearance="outline">
+            <mat-label>{{ 'Pets.PA' | translate }}</mat-label>
+            <mat-select formControlName="petPAControl">
+              <mat-option>-</mat-option>
+              <mat-option *ngFor="let pa of getPA() | keyvalue; originalOrder" value="{{ pa.key }}">{{ pa.value
+                }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width2" color="accent" appearance="outline">
+            <mat-label>{{ 'Pets.ATD' | translate }}</mat-label>
+            <mat-select formControlName="petATDControl">
+              <mat-option>-</mat-option>
+              <mat-option *ngFor="let atd of getATD() | keyvalue; originalOrder" value="{{ atd.key }}">{{ atd.value
+                }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width2" color="accent" appearance="outline">
+            <mat-label>{{ 'Pets.ATC' | translate }}</mat-label>
+            <mat-select formControlName="petATCControl">
+              <mat-option>-</mat-option>
+              <mat-option *ngFor="let atc of getATC() | keyvalue; originalOrder" value="{{ atc.key }}">{{ atc.value
+                }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="5">
+          <mat-label>{{ 'Pets.PT' | translate }}</mat-label>
+          <mat-card-subtitle>{{ 'Pets.PTHint' | translate }}</mat-card-subtitle>
+          <mat-form-field class="example-chip-list" appearance="outline">
+            <mat-chip-list aria-label="Pet traits" multiple="true" formControlName="petTraitsControl">
+              <mat-chip color="accent" *ngFor="let pt of getPT() | keyvalue; originalOrder"
+                value="{{pt.key}}">{{pt.value}}</mat-chip>
+            </mat-chip-list>
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+    <button mat-raised-button color="accent" (click)="filter()">{{ 'Pets.Search' | translate }}</button>
+    <button mat-raised-button color="accent" (click)="clearFilters()">{{ 'Pets.ClearFilters' | translate }}</button>
+    <button mat-raised-button color="accent" (click)="getSheltersFromLocation()">{{ "Shelter.ShareYourLocation" |
+      translate }}</button>
+  </form>
+</mat-card>

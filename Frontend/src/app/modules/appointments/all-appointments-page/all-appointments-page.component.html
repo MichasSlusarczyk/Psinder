@@ -1,0 +1,58 @@
+<div class="spinner" *ngIf="isLoading">
+  <mat-spinner diameter="80" color="accent"></mat-spinner>
+</div>
+<mat-card class="example-card" *ngIf="!isLoading">
+  <mat-card-header>
+    <mat-card-title class="appointment-title">{{
+      "Appointment.AllAppointments" | translate
+      }}</mat-card-title>
+  </mat-card-header>
+  <div *ngIf="appointments.length === 0">
+    <p></p>
+    <h3>{{ "Appointment.ThereAreNoAppointments" | translate }}</h3>
+  </div>
+  <cdk-accordion class="example-accordion" multi="true" *ngIf="appointments.length !== 0 && !isLoading">
+    <cdk-accordion-item *ngFor="let dateAppointment of appointments; let index = index"
+      #accordionItem="cdkAccordionItem" class="example-accordion-item" role="button" tabindex="0"
+      [attr.id]="'accordion-header-' + index" [attr.aria-expanded]="accordionItem.expanded"
+      [attr.aria-controls]="'accordion-body-' + index">
+      <div *ngIf="!!dateAppointment.appointments.length && dateAppointment.appointments.length > 0">
+        <div class="example-accordion-item-header" (click)="accordionItem.toggle()">
+          {{dateAppointment.pet?.name}}
+          <div class="image">
+            <img *ngIf="dateAppointment.pet?.imageToShow != null" mat-card-image class="img"
+              src="{{ dateAppointment.pet?.imageToShow }}" (click)="displayPet(dateAppointment)" />
+          </div>
+        </div>
+        <div class="example-accordion-item-body" role="region" [style.display]="accordionItem.expanded ? '' : 'none'"
+          [attr.id]="'accordion-body-' + index" [attr.aria-labelledby]="'accordion-header-' + index">
+          <mat-card-subtitle>{{ "Appointment.AllVisitsFor" | translate }}
+            {{dateAppointment.pet?.name}}:</mat-card-subtitle>
+
+          <div *ngFor="let appointment of dateAppointment.appointments">
+            <mat-card class="pet-appointment" *ngIf="appointment.appointmentStatus === 1">
+              <mat-card-header>
+                <mat-card-subtitle>{{ "Appointment.DateStart" | translate }}: {{
+                  getFormattedDate(appointment.appointmentTimeStart) }}</mat-card-subtitle>
+                <mat-card-subtitle>{{ "Appointment.DateEnd" | translate }}: {{
+                  getFormattedDate(appointment.appointmentTimeEnd) }}</mat-card-subtitle>
+                <mat-card-subtitle *ngIf="!!appointment.user?.email">{{ "Users.Email" | translate }}: {{
+                  appointment.user?.email }}</mat-card-subtitle>
+                <mat-card-subtitle *ngIf="!!appointment.user?.userDetails?.phoneNumber">{{ "Users.PhoneNumber" |
+                  translate
+                  }}: {{
+                  appointment.user?.userDetails?.phoneNumber }}</mat-card-subtitle>
+                <mat-card-subtitle *ngIf="!!appointment.user?.userDetails?.firstName">{{ "Users.Name" | translate }}: {{
+                  appointment.user?.userDetails?.firstName }}</mat-card-subtitle>
+                <div class="example-spacer"></div>
+                <button mat-icon-button matSuffix (click)="deleteAppointment(appointment)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-card-header>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </cdk-accordion-item>
+  </cdk-accordion>
+</mat-card>

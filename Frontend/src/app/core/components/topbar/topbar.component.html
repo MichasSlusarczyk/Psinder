@@ -1,0 +1,57 @@
+<mat-toolbar color="accent" class="mat-elevation-z8 topbar">
+  <span class="small-spacer"></span>
+  <button mat-button aria-label="Example icon-button with menu icon" (click)="displayPets()">
+    {{ "Topbar.Pets" | translate }}
+  </button>
+  <span class="small-spacer" *ngIf="isWorkerOnlyLoggedIn()"></span>
+  <button mat-button aria-label="Example icon-button with menu icon" *ngIf="isWorkerOnlyLoggedIn()"
+    [routerLink]="'/our-shelter'">
+    {{ "Topbar.OurShelter" | translate }}
+  </button>
+  <span *ngIf="isOnlyUserLoggedIn()" class="small-spacer"></span>
+  <button mat-button [routerLink]="'/my-appointments'" *ngIf="isOnlyUserLoggedIn()">
+    {{ "Topbar.MyAppointments" | translate }}
+  </button>
+  <span *ngIf="isWorkerOnlyLoggedIn()" class="small-spacer"></span>
+  <button mat-button *ngIf="isWorkerOnlyLoggedIn()" [routerLink]="'/all-appointments'">
+    {{ "Topbar.AllAppointments" | translate }}
+  </button>
+  <span class="small-spacer"></span>
+  <button mat-button aria-label="Example icon-button with menu icon" *ngIf="isAdminLoggedIn()" [routerLink]="'/users'">
+    {{ "Topbar.Users" | translate }}
+  </button>
+  <span class="small-spacer"></span>
+  <button mat-button aria-label="Example icon-button with menu icon" *ngIf="isAdminLoggedIn()"
+    [routerLink]="'/shelters'">
+    {{ "Topbar.Shelters" | translate }}
+  </button>
+  <span class="small-spacer"></span>
+  <button mat-stroked-button aria-label="Example icon-button with menu icon" *ngIf="isAdminLoggedIn()"
+    [routerLink]="'/shelter-form'">
+    {{ "Topbar.AddShelter" | translate }}
+  </button>
+  <span class="small-spacer"></span>
+  <button mat-button aria-label="Example icon-button with share icon" (click)="changeLanguage()">
+    {{ getLanguage() }}
+  </button>
+
+  <div *ngIf="isUserLoggedIn()">
+    <button mat-button [matMenuTriggerFor]="menu" class="example-icon">
+      <mat-icon>account_circle</mat-icon> {{ getLoggedInUser().email }}
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [routerLink]="'/data'">
+        <mat-icon>manage_accounts</mat-icon>
+        {{ "Topbar.EditAccount" | translate }}
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item class="example-icon" aria-label="Example icon-button with share icon" (click)="logout()">
+        <mat-icon>logout</mat-icon>{{ "Topbar.Logout" | translate }}
+      </button>
+    </mat-menu>
+  </div>
+  <button *ngIf="!isUserLoggedIn()" mat-stroked-button aria-label="Example icon-button with share icon"
+    [routerLink]="'/login'">
+    {{ "Topbar.SignIn" | translate }}
+  </button>
+</mat-toolbar>

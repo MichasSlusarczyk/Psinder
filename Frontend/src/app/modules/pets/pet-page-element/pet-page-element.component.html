@@ -1,0 +1,48 @@
+<mat-card class="mat-elevation-z0 pets-card" *ngIf="pet">
+  <div class="float" *ngIf="isWorkerLoggedIn() && isFromOurShelter()">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with menu icon">
+      <mat-icon class="menu-icon">expand_more</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [routerLink]="['/pet-form', id]">
+        <span>{{ 'Post.EditPost' | translate }}</span>
+      </button>
+      <button mat-menu-item (click)="deletePost()">
+        <span>{{ 'Post.DeletePost' | translate }}</span>
+      </button>
+    </mat-menu>
+  </div>
+  <mat-card-header>
+    <mat-card-title class="pet-header">{{ pet.name }} {{pet.number}}</mat-card-title>
+  </mat-card-header>
+  <div class="wrapper">
+    <div class="list">
+      <mat-card-subtitle><mat-icon>pets</mat-icon> {{ 'Pets.Breed' | translate}}: {{ pet.breed }}</mat-card-subtitle>
+      <mat-card-subtitle><mat-icon>pets</mat-icon> {{ 'Pets.Gender' | translate}}: {{ getGender() }}</mat-card-subtitle>
+      <mat-card-subtitle><mat-icon>pets</mat-icon> {{ 'Pets.Age' | translate}}:
+        {{ date.getFullYear() - pet.yearOfBirth }} {{ 'Pets.YearsOld' | translate}}</mat-card-subtitle>
+      <mat-card-subtitle><mat-icon>pets</mat-icon> {{ 'Pets.Size' | translate}}: {{ getSize() }}</mat-card-subtitle>
+      <mat-card-subtitle><mat-icon>pets</mat-icon> {{ 'Pets.PA' | translate}}: {{ getPA() }}</mat-card-subtitle>
+      <mat-card-subtitle><mat-icon>pets</mat-icon> {{ 'Pets.ATC' | translate}}: {{ getATC() }}</mat-card-subtitle>
+      <mat-card-subtitle><mat-icon>pets</mat-icon> {{ 'Pets.ATD' | translate}}: {{ getATD() }}</mat-card-subtitle>
+      <mat-card-subtitle><mat-icon>pets</mat-icon> {{ 'Pets.PT' | translate}}: {{ getPT() }}</mat-card-subtitle>
+    </div>
+    <div class="image">
+      <app-carousel [images]="images"></app-carousel>
+    </div>
+  </div>
+  <mat-card-content>{{ pet.description }}</mat-card-content>
+  <mat-card-actions>
+    <button [disabled]="!isUserLoggedIn() || !areUserDetailsFilledIn()" (click)="makeAnAppointment()" [matTooltip]="!isUserLoggedIn() ? 'You have to create an account to arrange a walk' : 
+      !areUserDetailsFilledIn() ? 'Please fill in your personal data in your account settings to arrange a walk' : ''"
+      mat-raised-button color="accent">
+      {{ 'Pets.ArrangeAWalk' | translate}}
+    </button>
+  </mat-card-actions>
+  <div *ngIf="isMapVisible()">
+    <mat-card-title>
+      {{ 'Shelter.Location' | translate}}:
+    </mat-card-title>
+    <app-map [address]="getAddress()" [city]="getCity()"></app-map>
+  </div>
+</mat-card>

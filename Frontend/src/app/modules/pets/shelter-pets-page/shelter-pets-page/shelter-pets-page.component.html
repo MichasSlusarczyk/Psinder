@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="header">
+      <mat-card-title class="title">{{ "Topbar.OurShelter" | translate }}</mat-card-title>
+      <mat-divider></mat-divider>
+      <button mat-raised-button type="submit" color="accent" class="button-add-pet"
+        [routerLink]="'/pet-form'">
+        {{ 'Pets.AddPet' | translate }}
+      </button>
+    </div>
+    <div>
+      <div class="spinner" *ngIf="!isDataLoaded">
+        <mat-spinner diameter="80" color="accent"></mat-spinner>
+      </div>
+      <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="2%" class="cards" *ngIf="isDataLoaded">
+        <div class="col-4" *ngFor="let pet of pets" fxFlex.gt-xs="22%" fxFlex.gt-md="regularDistribution">
+          <mat-card class="mat-elevation-z0 post-card">
+            <div class="image-container">
+              <img *ngIf="pet.imageToShow != null" mat-card-image src="{{ pet.imageToShow }}" (click)="displayPet(pet)"
+                class="image" />
+              <button mat-flat-button class="btn" (click)="displayPet(pet)">
+                {{ "Post.ReadMore" | translate }}
+              </button>
+            </div>
+            <mat-card-header class="pet-header">
+              <mat-card-title class="card-title" (click)="displayPet(pet)">{{ pet.name }}, {{ date.getFullYear() -
+                pet.yearOfBirth }}
+                {{ "Pets.YearsOld" | translate }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-subtitle><mat-icon>pets</mat-icon> {{ pet.breed }}</mat-card-subtitle>
+            <mat-card-subtitle><mat-icon>pets</mat-icon> {{ getGender(pet) }}
+            </mat-card-subtitle>
+            <mat-card-subtitle><mat-icon>pets</mat-icon> {{ getSize(pet) }}</mat-card-subtitle>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>

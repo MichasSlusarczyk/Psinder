@@ -1,0 +1,56 @@
+<div class="spinner" *ngIf="isLoading">
+  <mat-spinner diameter="80" color="accent"></mat-spinner>
+</div>
+<mat-card class="login-card" *ngIf="!isLoading">
+  <form class="example-form" [formGroup]="form">
+    <mat-form-field class="example-full-width" appearance="outline" color="accent">
+      <mat-label>Email</mat-label>
+      <input type="text" matInput formControlName="usernameControl" [errorStateMatcher]="matcher" placeholder="Email"
+        #username />
+      <mat-error *ngIf="form.get('usernameControl')!.hasError('required')">
+        {{ 'Login.UsernameRequired' | translate }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="outline" color="accent">
+      <mat-label>{{ 'Login.Password' | translate }}</mat-label>
+
+      <input matInput [type]="hide ? 'password' : 'text'" formControlName="passwordControl"
+        [errorStateMatcher]="matcher" placeholder="Password" #password />
+      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide">
+        <mat-icon>{{ hide ? "visibility" : "visibility_off" }}</mat-icon>
+      </button>
+      <mat-error *ngIf="form.get('passwordControl')!.hasError('required')">
+        {{ 'Login.PasswordRequired' | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <form class="example-form" [formGroup]="recaptchaForm">
+      <div class="col-sm-12 mb-2" *ngIf="form.valid">
+        <re-captcha id="recaptcha" formControlName="captchaFormControl" name="recaptcha" required></re-captcha>
+      </div>
+    </form>
+
+    <h3 class="error" *ngIf="isError">{{errorMessage}}</h3>
+
+    <button mat-raised-button type="submit" (click)="login()" color="accent" class="login-button"
+      [disabled]="!form.valid">
+      {{ 'Login.Login' | translate }}
+    </button>
+  </form>
+  <div id="buttonDiv"></div>
+  <div>
+    <button class="loginBtn loginBtn--facebook" (click)="loginFacebook()">
+      <i class="fa fa-facebook me-1"></i>
+      Login with Facebook
+    </button>
+  </div>
+
+  <div class="no-account">
+    <mat-card-subtitle>{{ 'Login.DontHaveAccount' | translate }} <a href="/register">{{ 'Login.Register' | translate
+        }}.</a></mat-card-subtitle>
+    <mat-card-subtitle><a href="/restore-password-email">{{ 'Login.ForgotPassword' | translate
+        }}</a></mat-card-subtitle>
+  </div>
+
+</mat-card>

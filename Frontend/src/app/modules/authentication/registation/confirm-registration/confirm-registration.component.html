@@ -1,0 +1,17 @@
+<div class="spinner" *ngIf="isLoading">
+  <mat-spinner diameter="80" color="accent"></mat-spinner>
+</div>
+<mat-card class="example-card" *ngIf="!isLoading">
+  <mat-card-content>
+    <h2>{{ message }}</h2>
+    <button
+      *ngIf="isTokenVerified"
+      color="accent"
+      mat-flat-button
+      class="button"
+      [routerLink]="'/login'"
+    >
+      {{'Topbar.SignIn' | translate }}!
+    </button>
+  </mat-card-content>
+</mat-card>

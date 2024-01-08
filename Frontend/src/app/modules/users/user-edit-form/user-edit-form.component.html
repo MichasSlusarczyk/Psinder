@@ -1,0 +1,196 @@
+<mat-card class="example-card" *ngIf="user">
+  <div>
+    <mat-card-title *ngIf="!isAdminEditing" class="main-title">{{
+      "UserEdit.MyAccount" | translate
+      }}</mat-card-title>
+    <mat-divider class="divider"></mat-divider>
+  </div>
+
+  <h2 class="subtitle" *ngIf="!isAdminEditing">{{ "UserEdit.MyData" | translate }}</h2>
+  <mat-card-content>
+    <form class="example-form" [formGroup]="personalDataForm" *ngIf="!isAdminEditing">
+      <mat-form-field class="example-full-width" appearance="outline" color="accent">
+        <mat-label>{{ "Register.FirstName" | translate }}</mat-label>
+        <input type="text" matInput formControlName="firstNameControl" [errorStateMatcher]="matcher"
+          placeholder="First name" />
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="outline" color="accent">
+        <mat-label>{{ "Register.LastName" | translate }}</mat-label>
+        <input type="text" matInput formControlName="lastNameControl" [errorStateMatcher]="matcher"
+          placeholder="Last name" />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="outline" color="accent">
+        <mat-label>{{ "Register.Gender" | translate }}</mat-label>
+        <mat-select formControlName="genderControl">
+          <mat-option *ngFor="let gender of getPersonGender() | keyvalue" value="{{ gender.key }}">{{ gender.value
+            }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="outline" color="accent">
+        <mat-label>{{ "Register.PhoneNumber" | translate }}</mat-label>
+        <input type="text" matInput formControlName="phoneNumberControl" [errorStateMatcher]="matcher"
+          placeholder="Phone number" />
+        <mat-error *ngIf="
+          personalDataForm.get('phoneNumberControl')!.hasError('pattern')
+        ">
+          Phone number should have max. 9 digits
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="outline" color="accent">
+        <mat-label>{{ "Register.BirthDate" | translate }}</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="birthDateControl" [errorStateMatcher]="matcher" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="outline" color="accent">
+        <mat-label>{{ "Register.City" | translate }}</mat-label>
+        <input type="text" matInput formControlName="cityControl" [errorStateMatcher]="matcher" placeholder="City" />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="outline" color="accent">
+        <mat-label>{{ "Register.Street" | translate }}</mat-label>
+        <input type="text" matInput formControlName="streetControl" [errorStateMatcher]="matcher"
+          placeholder="Street" />
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="outline" color="accent">
+        <mat-label>{{ "Register.StreetNumber" | translate }}</mat-label>
+        <input type="text" matInput formControlName="streetNumberControl" [errorStateMatcher]="matcher"
+          placeholder="Street number" />
+      </mat-form-field>
+      <p><ng-container #container></ng-container></p>
+      <button color="accent" mat-flat-button class="button" type="submit" (click)="onSubmit()"
+        [disabled]="!personalDataForm.valid">
+        {{ "UserEdit.Edit" | translate }}
+      </button>
+    </form>
+
+    <div *ngIf="!isDifferentSignIn() && !isAdminEditing">
+      <div>
+        <mat-divider class="divider"></mat-divider>
+      </div>
+
+      <h2 class="subtitle">{{ "UserEdit.ChangePassword" | translate }}</h2>
+
+      <form class="example-form" [formGroup]="passwordDataForm">
+        <mat-form-field class="example-full-width" appearance="outline" color="accent">
+          <mat-label>{{ "UserEdit.ActualPassword" | translate }}</mat-label>
+          <input [type]="hide ? 'password' : 'text'" matInput formControlName="oldPasswordControl"
+            [errorStateMatcher]="matcher" placeholder="Password" />
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>{{ hide ? "visibility" : "visibility_off" }}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="outline" color="accent">
+          <mat-label>{{ "UserEdit.NewPassword" | translate }}</mat-label>
+          <input [type]="hideNew ? 'password' : 'text'" matInput formControlName="newPasswordControl"
+            [errorStateMatcher]="matcher" placeholder="New password" />
+          <button mat-icon-button matSuffix (click)="hideNew = !hideNew" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hideNew">
+            <mat-icon>{{ hideNew ? "visibility" : "visibility_off" }}</mat-icon>
+          </button>
+          <mat-error *ngIf="
+            passwordDataForm.get('newPasswordControl')!.hasError('required')
+          ">
+            {{ "Register.PasswordRequired" | translate }}
+          </mat-error>
+          <mat-error *ngIf="passwordDataForm.get('newPasswordControl')!.hasError('number')">
+            {{ "Register.PasswordDigit" | translate }}
+          </mat-error>
+          <mat-error *ngIf="
+            passwordDataForm.get('newPasswordControl')!.hasError('capital')
+          ">
+            {{ "Register.PasswordCapitalLetter" | translate }}
+          </mat-error>
+          <mat-error *ngIf="passwordDataForm.get('newPasswordControl')!.hasError('small')">
+            {{ "Register.PasswordSmallLetter" | translate }}
+          </mat-error>
+          <mat-error *ngIf="
+            passwordDataForm.get('newPasswordControl')!.hasError('special')
+          ">
+            {{ "Register.PasswordSpecialCharacters" | translate }}
+          </mat-error>
+          <mat-error *ngIf="
+            passwordDataForm.get('newPasswordControl')!.hasError('minlength')
+          ">
+            {{ "Register.PasswordCharacters" | translate }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="outline" color="accent">
+          <mat-label>{{ "UserEdit.ConfirmNewPassword" | translate }}</mat-label>
+          <input [type]="hideConfirm ? 'password' : 'text'" matInput formControlName="confirmNewPasswordControl"
+            [errorStateMatcher]="matcher" placeholder="Confirm new password" />
+          <button mat-icon-button matSuffix (click)="hideConfirm = !hideConfirm" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hideConfirm">
+            <mat-icon>{{
+              hideConfirm ? "visibility" : "visibility_off"
+              }}</mat-icon>
+          </button>
+          <mat-error *ngIf="
+            passwordDataForm
+              .get('confirmNewPasswordControl')!
+              .hasError('required')
+          ">
+            {{ "Register.ConfirmPasswordRequired" | translate }}
+          </mat-error>
+          <mat-error *ngIf="
+            passwordDataForm
+              .get('confirmNewPasswordControl')!
+              .hasError('matching')
+          ">
+            {{ "Register.ConfirmDoesNotMatch" | translate }}
+          </mat-error>
+        </mat-form-field>
+        <p><ng-container #passwordContainer></ng-container></p>
+        <button color="accent" mat-flat-button class="button" type="submit" (click)="onChangePassword()"
+          [disabled]="!passwordDataForm.valid">
+          {{ "UserEdit.ChangePassword" | translate }}
+        </button>
+      </form>
+    </div>
+    <div *ngIf="!isAdminEditing">
+      <mat-divider class="divider"></mat-divider>
+    </div>
+
+    <div *ngIf="!isAdminEditing">
+      <h2 class="subtitle">{{ "UserEdit.DeleteYourAccount" | translate }}</h2>
+
+      <span class="delete-message">{{
+        "UserEdit.DeleteAccountMessage" | translate
+        }}</span>
+
+      <p></p>
+
+      <button color="accent" mat-flat-button class="button" (click)="deleteAccount()">
+        {{ "UserEdit.DeleteAccount" | translate }}
+      </button>
+    </div>
+
+    <div *ngIf="isAdminEditing">
+      <mat-card-title>Edit {{user.email}}'s role</mat-card-title>
+      <form class="example-form" [formGroup]="roleForm">
+        <mat-form-field class="example-full-width" appearance="outline" color="accent">
+          <mat-label>{{ "Register.Role" | translate }}</mat-label>
+          <mat-select formControlName="roleControl">
+            <mat-option *ngFor="let role of getRole() | keyvalue" value="{{ role.key }}">{{ role.value
+              }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="outline" color="accent" *ngIf="isWorkerSelected()">
+          <mat-label>{{ "Shelter.Shelters" | translate }}</mat-label>
+          <mat-select formControlName="shelterControl" [(value)]="shelterId">
+            <mat-option value="">-</mat-option>
+            <mat-option *ngFor="let shelter of shelters" [value]="shelter.id">{{shelter.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+      <button color="accent" mat-flat-button class="button" type="submit" (click)="onSubmit()"
+        [disabled]="!roleForm.valid">
+        {{ "UserEdit.Edit" | translate }}
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>
