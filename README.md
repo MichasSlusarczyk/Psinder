@@ -24,20 +24,27 @@ Additional functionalities include:
 - password reminder (with e-mail confirmation) 
 - changing the page display language to Polish (excluding the translation of animal descriptions). 
 
-# Start-up instructions from the developer's website: 
+# Start-up instructions from the developer's side: 
 ### Backend: 
 Perform the installation of the Visual Studio 2022 development environment from https://visualstudio.microsoft.com/pl/vs/. To do this, during the installation of the environment itself in the Community version using the installer, choose the ASP.NET and Web Development package, and make sure that the latest version of .NET 7 is installed. Upon the first project launch, it should automatically download all necessary packages using the NuGet Package Manager tool.
 Even though the SQL Server database is locally located within the project during the application development process, the Redis tool is still required to run the application. To achieve this, based on the Linux system, which can also be installed as a subsystem for the Windows system, install the Redis tool using the following commands:
+
 *sudo apt-add-repository ppa:redislabs/redis*
+
 *sudo apt-get update*
+
 *sudo apt-get upgrade*
+
 *sudo apt-get install redis-server*
+
 
 The last step is to run this tool in the background using the command:
 *sudo service redis-server start*
 
 In case it is necessary to make changes to the database structure, perform migration using the command in the built-in Visual Studio Package Manager Console, and then update the database:
+
 *Add-Migration InitialCreate -Project Psinder.DB*
+
 *Update-Database -Project Psinder.DB*
 
 ### Frontend: 
@@ -70,13 +77,21 @@ To enable the application to send emails using your Gmail account, we recommend 
 #### Test users:
 You can test the application with predefined users for each role.
 User:
+
 [user1@gmail.com]
+
 Worker:
+
 [worker1@gmail.com]
+
 Admin:
+
 [admin1@gmail.com]
+
 Password for all test accounts:
+
 **P@ssw0rd123456**
+
 # Usage from the user side: 
 #### Installation and commissioning: 
 To install the usable version of the application, you must have Docker installed. Having the environment required to run the application in question installed and active, download the docker-compose.yml file available in the repository, and then run the command line in the folder where the downloaded file is located. The next step to run the application is to execute the docker compose up command in the terminal, which creates and launches the defined containers. Execution of this command downloads the appropriate artifacts and launches containers containing the backend and frontend parts of the application in question, as well as the database management system. Once the containers and application are completely built, it is available in the browser at http://localhost:4200. 
